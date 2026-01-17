@@ -1,7 +1,8 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GuestProfile, WeddingEvent } from '../types';
+import { RsvpModal } from './RsvpModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,9 @@ interface ScrollEnvelopeProps {
 export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pinnedWrapperRef = useRef<HTMLDivElement>(null);
+  
+  // State for Modal
+  const [isRsvpOpen, setIsRsvpOpen] = useState(false);
   
   // Layers references
   const cardRef = useRef<HTMLDivElement>(null);   // Z-20
@@ -101,7 +105,8 @@ export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events })
   }, [events]);
 
   return (
-    // 1. SCROLL TRACK
+    <>
+    {/* 1. SCROLL TRACK */}
     <div ref={containerRef} className="relative w-full h-[500vh]" style={{ background: 'var(--bg-color)' }}>
       
       {/* 2. PINNED VIEWPORT */}
@@ -184,7 +189,10 @@ export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events })
               {/* FOOTER */}
               <div className="border-t border-gold opacity-30 pt-12 pb-20">
                 <p className="font-serif-body italic text-primary mb-8">Reserved for {guest.name}</p>
-                <button className="btn-gold-foil w-full text-white py-5 font-display uppercase tracking-[0.2em] text-sm shadow-xl rounded-sm">
+                <button 
+                  onClick={() => setIsRsvpOpen(true)}
+                  className="btn-gold-foil w-full text-white py-5 font-display uppercase tracking-[0.2em] text-sm shadow-xl rounded-sm hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                >
                   RSVP
                 </button>
               </div>
@@ -247,5 +255,13 @@ export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events })
         </div>
       </div>
     </div>
+    
+    {/* RSVP MODAL (Portal) */}
+    <RsvpModal 
+        isOpen={isRsvpOpen} 
+        onClose={() => setIsRsvpOpen(false)} 
+        guest={guest} 
+    />
+    </>
   );
 };
