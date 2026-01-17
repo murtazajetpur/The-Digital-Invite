@@ -1,8 +1,10 @@
+
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GuestProfile, WeddingEvent } from '../types';
 import { RsvpModal } from './RsvpModal';
+import { Countdown } from './Countdown';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +19,8 @@ export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events })
   
   // State for Modal
   const [isRsvpOpen, setIsRsvpOpen] = useState(false);
+  // State for which calendar menu is open (by event ID)
+  const [activeCalendarMenu, setActiveCalendarMenu] = useState<string | null>(null);
   
   // Layers references
   const cardRef = useRef<HTMLDivElement>(null);   // Z-20
@@ -24,6 +28,61 @@ export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events })
   const flapRef = useRef<HTMLDivElement>(null);   // Z-40
   const waxRef = useRef<HTMLDivElement>(null);
   const scrollTextRef = useRef<HTMLDivElement>(null);
+
+  // --- CALENDAR LOGIC ---
+  const handleGoogleCalendar = (e: React.MouseEvent, event: WeddingEvent) => {
+    e.stopPropagation();
+    const startDate = new Date(event.isoDate);
+    const endDate = new Date(startDate.getTime() + (4 * 60 * 60 * 1000)); // Assume 4 hours duration
+
+    const format = (date: Date) => date.toISOString().replace(/-|:|\.\d\d\d/g, "");
+    
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${format(startDate)}/${format(endDate)}&details=${encodeURIComponent("Wedding Celebration of Lubna & Murtaza")}&location=${encodeURIComponent(event.venue + ", " + event.location)}`;
+    
+    window.open(url, '_blank');
+    setActiveCalendarMenu(null);
+  };
+
+  const handleIcsDownload = (e: React.MouseEvent, event: WeddingEvent) => {
+    e.stopPropagation();
+    const startDate = new Date(event.isoDate);
+    const endDate = new Date(startDate.getTime() + (4 * 60 * 60 * 1000));
+    
+    const format = (date: Date) => date.toISOString().replace(/-|:|\.\d\d\d/g, "");
+    const now = format(new Date());
+
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//LubnaMurtaza//Wedding//EN
+BEGIN:VEVENT
+UID:${event.id}@lubnamurtaza.com
+DTSTAMP:${now}
+DTSTART:${format(startDate)}
+DTEND:${format(endDate)}
+SUMMARY:${event.title}
+DESCRIPTION:Wedding Celebration of Lubna & Murtaza
+LOCATION:${event.venue}, ${event.location}
+END:VEVENT
+END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', `${event.id}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setActiveCalendarMenu(null);
+  };
+
+  // --- MAP LOGIC ---
+  const openNativeMap = (venue: string, location: string) => {
+    const query = encodeURIComponent(`${venue}, ${location}`);
+    // Universal link works for iOS (Apple Maps) and Android (Google Maps) usually
+    // On Desktop it goes to Google Maps web
+    window.open(`https://maps.google.com/?q=${query}`, '_blank');
+  };
+
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -42,7 +101,6 @@ export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events })
       gsap.set(flapRef.current, { rotateX: 0 }); 
 
       // --- STEP 1: UNLOCKING (0% -> 20%) ---
-      
       // 0. Hide Instructions immediately
       tl.to(scrollTextRef.current, { opacity: 0, duration: 0.2 }, 0);
 
@@ -173,21 +231,91 @@ export const ScrollEnvelope: React.FC<ScrollEnvelopeProps> = ({ guest, events })
 
                {/* EVENTS */}
                {events.map((event, i) => (
-                <div key={event.id} className="w-full">
-                  <h3 className="font-display text-3xl md:text-4xl text-gold mb-3 uppercase tracking-wide">{event.title}</h3>
-                  <p className="font-serif-body text-2xl text-primary italic mb-3">{event.date}</p>
-                  <p className="font-display text-sm text-header uppercase tracking-widest opacity-80">{event.venue}, {event.location}</p>
-                  <p className="text-gold text-xs font-bold mt-4 uppercase tracking-widest border border-gold inline-block px-4 py-2 rounded-sm">
-                    {event.theme}
-                  </p>
-                  {i < events.length - 1 && (
-                    <div className="text-gold opacity-40 text-xl mt-12">♦</div>
-                  )}
+                <div key={event.id} className="w-full relative pb-12 border-b border-gold/20 last:border-0 last:pb-0">
+                  
+                  {/* Title & Date */}
+                  <h3 className="font-display text-3xl md:text-4xl text-gold mb-2 uppercase tracking-wide">{event.title}</h3>
+                  <p className="font-serif-body text-xl text-primary italic mb-6">{event.date} • {event.time}</p>
+
+                  {/* Main Grid Layout for Location & Attire */}
+                  <div className="flex flex-col md:flex-row gap-6 items-start justify-between text-left mt-6">
+                      
+                      {/* LEFT: Location Card */}
+                      <div className="w-full md:w-1/2">
+                          <p className="font-display text-[10px] uppercase tracking-widest text-primary/50 mb-2">Venue</p>
+                          <div 
+                             onClick={() => openNativeMap(event.venue, event.location)}
+                             className="group cursor-pointer border border-gold/30 bg-white/50 p-4 rounded-sm flex items-center gap-4 hover:border-gold hover:bg-white transition-all duration-300 hover:shadow-lg"
+                          >
+                             <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover:scale-110 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                                </svg>
+                             </div>
+                             <div>
+                                <h5 className="font-serif font-bold text-primary text-sm">{event.venue}</h5>
+                                <p className="font-sans text-xs text-primary/70">{event.location}</p>
+                                <span className="text-[10px] text-gold uppercase tracking-widest mt-1 block opacity-0 group-hover:opacity-100 transition-opacity">Open Map &rarr;</span>
+                             </div>
+                          </div>
+                      </div>
+
+                      {/* RIGHT: Dress Code Lookbook */}
+                      <div className="w-full md:w-1/2 flex gap-4">
+                          <div className="flex-1">
+                              <p className="font-display text-[10px] uppercase tracking-widest text-primary/50 mb-2">Dress Code</p>
+                              <p className="font-serif text-lg text-gold italic border-b border-gold/20 inline-block pb-1">{event.theme}</p>
+                          </div>
+                          <div className="w-20 h-24 border border-gold/10 bg-white/30 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                               <img 
+                                  src={event.attireImage} 
+                                  alt="Attire Sketch" 
+                                  className="w-full h-full object-contain mix-blend-multiply opacity-80"
+                                  style={{ filter: 'sepia(1) hue-rotate(320deg) contrast(1.2)' }}
+                               />
+                          </div>
+                      </div>
+                  </div>
+
+                  {/* Add to Calendar Button (Floating or inline) */}
+                  <div className="mt-8 relative inline-block text-left">
+                     <button 
+                        onClick={() => setActiveCalendarMenu(activeCalendarMenu === event.id ? null : event.id)}
+                        className="text-[10px] font-display uppercase tracking-[0.2em] text-primary hover:text-gold transition-colors flex items-center gap-2 mx-auto"
+                     >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Save The Date
+                     </button>
+                     
+                     {/* Calendar Dropdown */}
+                     {activeCalendarMenu === event.id && (
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white border border-gold shadow-xl z-50 flex flex-col py-1 animate-fade-in">
+                           <button 
+                              onClick={(e) => handleGoogleCalendar(e, event)}
+                              className="px-4 py-3 text-left hover:bg-gold/10 text-xs font-display uppercase tracking-wider text-primary flex items-center gap-2"
+                           >
+                              Google Calendar
+                           </button>
+                           <button 
+                              onClick={(e) => handleIcsDownload(e, event)}
+                              className="px-4 py-3 text-left hover:bg-gold/10 text-xs font-display uppercase tracking-wider text-primary flex items-center gap-2 border-t border-gold/10"
+                           >
+                              Apple / Outlook
+                           </button>
+                        </div>
+                     )}
+                  </div>
+
                 </div>
               ))}
 
-              {/* FOOTER */}
+              {/* FOOTER AREA */}
               <div className="border-t border-gold opacity-30 pt-12 pb-20">
+                {/* Countdown */}
+                <Countdown targetDateStr={events[0]?.isoDate || '2026-11-11T00:00:00'} />
+
                 <p className="font-serif-body italic text-primary mb-8">Reserved for {guest.name}</p>
                 <button 
                   onClick={() => setIsRsvpOpen(true)}

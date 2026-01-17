@@ -1,3 +1,4 @@
+
 export interface WeddingEvent {
   id: string;
   title: string;
@@ -8,6 +9,8 @@ export interface WeddingEvent {
   theme: string;
   mapLink?: string;
   imagePlaceholder: string;
+  isoDate: string; // ISO 8601 string (e.g., "2026-11-11T19:00:00")
+  attireImage: string; // URL for the sketch
 }
 
 export interface GuestProfile {

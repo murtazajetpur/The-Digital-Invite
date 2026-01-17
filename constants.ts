@@ -1,3 +1,4 @@
+
 import { EventDictionary, GuestDictionary, WeddingEvent } from './types';
 
 // --- Configuration ---
@@ -19,6 +20,8 @@ export const EVENTS: EventDictionary = {
     venue: 'Country Club Hall',
     location: 'Undri, Pune',
     theme: 'Western Elegance',
+    isoDate: '2026-11-11T19:00:00',
+    attireImage: 'https://img.freepik.com/premium-vector/fashion-illustration-wedding-dress-vector-line-drawing_551806-38.jpg',
     imagePlaceholder: 'https://picsum.photos/seed/wedding1/800/600',
   },
   mehendi: {
@@ -29,16 +32,20 @@ export const EVENTS: EventDictionary = {
     venue: 'Sanskruti Banquet',
     location: 'Malabar Hill, Mumbai',
     theme: 'Traditional Vibrance',
+    isoDate: '2026-11-13T16:00:00',
+    attireImage: 'https://img.freepik.com/premium-vector/india-women-traditional-clothing-doodle-style_146816-166.jpg',
     imagePlaceholder: 'https://picsum.photos/seed/wedding2/800/600',
   },
   darees: {
     id: 'darees',
     title: 'Darees (Religious Gathering)',
     date: 'Saturday, Nov 14, 2026',
-    time: 'Morning',
+    time: '10:00 AM',
     venue: 'Al Saadah Hall',
     location: 'Bhendi Bazaar, Mumbai',
     theme: 'Strictly Bohra Attire',
+    isoDate: '2026-11-14T10:00:00',
+    attireImage: 'https://i.pinimg.com/736x/21/2a/54/212a543666d3a95c02bf14731a54508e.jpg',
     imagePlaceholder: 'https://picsum.photos/seed/wedding3/800/600',
   },
   walima: {
@@ -49,6 +56,8 @@ export const EVENTS: EventDictionary = {
     venue: 'Najam Baug',
     location: 'Dongri, Mumbai',
     theme: 'Traditional',
+    isoDate: '2026-11-15T19:00:00',
+    attireImage: 'https://img.freepik.com/premium-vector/india-women-traditional-clothing-doodle-style_146816-166.jpg',
     imagePlaceholder: 'https://picsum.photos/seed/wedding4/800/600',
   },
 };
