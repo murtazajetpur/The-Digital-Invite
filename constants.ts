@@ -1,13 +1,12 @@
-
 import { EventDictionary, GuestDictionary, WeddingEvent } from './types';
 
 // --- Configuration ---
 export const COLORS = {
-  lavender: '#E6E6FA',
-  blush: '#F3E5F5',
-  gold: '#D4AF37',
-  ink: '#4A3B4E',
-  paper: '#FFFDF5',
+  lavender: '#E3D4E6',
+  blush: '#E3D4E6', // Replaced blush with theme lavender for consistency
+  gold: '#C5A059',
+  ink: '#4A404F',
+  paper: '#FFFCF7',
 };
 
 // --- Events Data ---
@@ -21,7 +20,8 @@ export const EVENTS: EventDictionary = {
     location: 'Undri, Pune',
     theme: 'Western Elegance',
     isoDate: '2026-11-11T19:00:00',
-    attireImage: 'https://img.freepik.com/premium-vector/fashion-illustration-wedding-dress-vector-line-drawing_551806-38.jpg',
+    // Elegant Dress Fabric/Detail
+    attireImage: 'https://images.unsplash.com/photo-1596839632868-e69c36293f04?q=80&w=1000&auto=format&fit=crop',
     imagePlaceholder: 'https://picsum.photos/seed/wedding1/800/600',
   },
   mehendi: {
@@ -33,7 +33,8 @@ export const EVENTS: EventDictionary = {
     location: 'Malabar Hill, Mumbai',
     theme: 'Traditional Vibrance',
     isoDate: '2026-11-13T16:00:00',
-    attireImage: 'https://img.freepik.com/premium-vector/india-women-traditional-clothing-doodle-style_146816-166.jpg',
+    // Vibrant Indian Fabric/Henna
+    attireImage: 'https://images.unsplash.com/photo-1583391724648-2d881a70014b?q=80&w=1000&auto=format&fit=crop',
     imagePlaceholder: 'https://picsum.photos/seed/wedding2/800/600',
   },
   darees: {
@@ -45,7 +46,8 @@ export const EVENTS: EventDictionary = {
     location: 'Bhendi Bazaar, Mumbai',
     theme: 'Strictly Bohra Attire',
     isoDate: '2026-11-14T10:00:00',
-    attireImage: 'https://i.pinimg.com/736x/21/2a/54/212a543666d3a95c02bf14731a54508e.jpg',
+    // Modest/Archtectural detail abstract
+    attireImage: 'https://images.unsplash.com/photo-1576487248805-cf45f6bcc67f?q=80&w=1000&auto=format&fit=crop',
     imagePlaceholder: 'https://picsum.photos/seed/wedding3/800/600',
   },
   walima: {
@@ -57,7 +59,8 @@ export const EVENTS: EventDictionary = {
     location: 'Dongri, Mumbai',
     theme: 'Traditional',
     isoDate: '2026-11-15T19:00:00',
-    attireImage: 'https://img.freepik.com/premium-vector/india-women-traditional-clothing-doodle-style_146816-166.jpg',
+    // Rich fabric or flowers
+    attireImage: 'https://images.unsplash.com/photo-1610173827002-62c0f1f07d3b?q=80&w=1000&auto=format&fit=crop',
     imagePlaceholder: 'https://picsum.photos/seed/wedding4/800/600',
   },
 };

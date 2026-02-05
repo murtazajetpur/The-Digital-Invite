@@ -3,32 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    <meta name="theme-color" content="#E6E6FA" />
+    <meta name="theme-color" content="#E3D4E6" />
     <title>Lubna & Murtaza | The Wedding</title>
-    <!-- Tailwind via CDN for quick prototyping, though PostCSS is recommended for production -->
+    <!-- Tailwind via CDN for quick prototyping -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg-color: #E6E6FA;        /* Soft Lavender (Page Background) */
-        --paper-color: #FFFDF5;     /* Warm Cream (Envelope & Card) */
-        --gold-accent: #D4AF37;     /* Metallic Gold (Borders & Seal) */
-        --text-primary: #4A3B4E;    /* Dark Muted Purple (Body Text) */
-        --text-header: #8E7196;     /* Dusty Lavender (Headers) */
-        --shadow-soft: rgba(74, 59, 78, 0.15); /* Purple-tinted shadow */
+        --bg-color: #E3D4E6;        /* Theme Lavender */
+        --paper-color: #FFFCF7;     /* Theme Cream */
+        --gold-accent: #C5A059;     /* Theme Gold */
+        --text-primary: #4A404F;    /* Theme Text (Charcoal/Purple) */
+        --text-header: #4A404F;     /* Same as primary for consistency in this theme */
+        --shadow-soft: rgba(74, 64, 79, 0.15);
       }
 
       body {
-        font-family: 'Playfair Display', serif;
-        background: radial-gradient(circle at center, #F3E5F5 0%, #E1BEE7 100%); /* Lavender Gradient */
+        font-family: 'Cormorant Garamond', serif;
+        background-color: var(--bg-color);
         color: var(--text-primary);
         overflow-x: hidden;
       }
-      .font-display { font-family: 'Cinzel', serif; }
+      .font-display { font-family: 'Cinzel Decorative', cursive; }
       .font-script { font-family: 'Great Vibes', cursive; }
-      .font-serif-body { font-family: 'Playfair Display', serif; }
+      .font-serif-body { font-family: 'Cormorant Garamond', serif; }
       
       /* Utilities for 3D Transforms */
       .perspective-1000 { perspective: 1000px; }
@@ -48,7 +48,7 @@
         z-index: 0;
         pointer-events: none;
         /* Golden noise filter approx */
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' fill='%23D4AF37'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' fill='%23C5A059'/%3E%3C/svg%3E");
         mix-blend-mode: multiply;
       }
       /* Ensure content sits above texture */
@@ -74,23 +74,23 @@
       .bg-paper { background-color: var(--paper-color); }
       .border-gold { border-color: var(--gold-accent); }
     </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react-dom": "https://esm.sh/react-dom@^19.2.3",
-    "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "gsap": "https://esm.sh/gsap@^3.14.2",
     "gsap/": "https://esm.sh/gsap@^3.14.2/",
-    "gsap": "https://esm.sh/gsap@^3.14.2"
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

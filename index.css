@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #E3D4E6;        /* Theme Lavender */
+  --paper-color: #FFFCF7;     /* Theme Cream */
+  --gold-accent: #C5A059;     /* Theme Gold */
+  --text-primary: #4A404F;    /* Theme Text (Charcoal/Purple) */
+  --text-header: #4A404F;     
+  --shadow-soft: rgba(74, 64, 79, 0.15);
+}
+
+body {
+  font-family: 'Cormorant Garamond', serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+.font-display { font-family: 'Cinzel Decorative', cursive; }
+.font-script { font-family: 'Great Vibes', cursive; }
+.font-serif-body { font-family: 'Cormorant Garamond', serif; }
+
+/* Utilities for 3D Transforms */
+.perspective-1000 { perspective: 1000px; }
+.transform-style-3d { transform-style: preserve-3d; }
+.backface-hidden { backface-visibility: hidden; }
+
+/* Gold Dust Paper Texture */
+.bg-paper-texture {
+  background-color: var(--paper-color);
+  position: relative;
+}
+.bg-paper-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.15; /* Subtle noise */
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' fill='%23C5A059'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+.bg-paper-texture > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gold Foil Button Shine Effect */
+.btn-gold-foil {
+  background: linear-gradient(45deg, #C5A059 0%, #E6C875 30%, #C5A059 60%, #B08D55 100%);
+  background-size: 200% auto;
+  transition: 0.5s;
+}
+.btn-gold-foil:hover {
+  background-position: right center;
+}
+
+/* Helper classes for Tailwind arbitrary value mapping */
+.text-primary { color: var(--text-primary); }
+.text-header { color: var(--text-header); }
+.text-gold { color: var(--gold-accent); }
+.bg-paper { background-color: var(--paper-color); }
+.border-gold { border-color: var(--gold-accent); }

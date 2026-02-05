@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 interface CountdownProps {
@@ -32,7 +31,7 @@ export const Countdown: React.FC<CountdownProps> = ({ targetDateStr }) => {
   }, [targetDateStr]);
 
   return (
-    <div className="w-full text-center py-10 border-t border-gold/30 mb-8">
+    <div className="w-full text-center py-8">
       <p className="font-display text-xs uppercase tracking-[0.3em] text-primary/60 mb-6">The Countdown Begins</p>
       
       {isExpired ? (
