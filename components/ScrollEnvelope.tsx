@@ -6,9 +6,9 @@ import { RsvpModal } from './RsvpModal';
 import { Countdown } from './Countdown';
 
 // --- ASSET CONFIGURATION ---
-// Updated to reliable Unsplash and Wikimedia assets to prevent broken links
-const envelopeBodyImg = "https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?q=80&w=2070&auto=format&fit=crop"; // High quality textured paper
-const envelopeFlapImg = "https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?q=80&w=2070&auto=format&fit=crop"; 
+// Updated to a plain, high-quality paper texture for a classic envelope look
+const envelopeBodyImg = "https://images.unsplash.com/photo-1605218427368-35b8098c60a2?q=80&w=2070&auto=format&fit=crop"; 
+const envelopeFlapImg = "https://images.unsplash.com/photo-1605218427368-35b8098c60a2?q=80&w=2070&auto=format&fit=crop"; 
 // Reliable Gold Seal from Wikimedia Commons
 const waxSealImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Gold_seal.svg/1024px-Gold_seal.svg.png"; 
 
